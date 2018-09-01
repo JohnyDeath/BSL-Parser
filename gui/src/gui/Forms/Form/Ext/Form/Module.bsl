@@ -69,13 +69,13 @@ Procedure TranslateAtServer()
 		
 	ElsIf Output = "Plugin" Then
 		
-		BSLParser.Location = True;
+		BSLParser.ПоложениеУзлаВАСТ = True;
 		
 		PluginProcessor = ExternalDataProcessors.Create(PluginPath, False);
-		Parser_Module = BSLParser.ParseModule(Source.GetText());
-		BSLParser.HookUp(PluginProcessor);
-		BSLParser.VisitModule(Parser_Module);
-		Result.SetText(PluginProcessor.Result());
+		Parser_Module = BSLParser.РазобратьМодуль(Source.GetText());
+		BSLParser.Подключить(PluginProcessor);
+		BSLParser.ПосетитьМодуль(Parser_Module);
+		Result.SetText(PluginProcessor.Результат());
 		
 	EndIf;
 
