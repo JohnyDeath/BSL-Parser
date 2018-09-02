@@ -1,27 +1,27 @@
 
-AttachScript("..\src\BSLParser\Ext\ObjectModule.bsl", "BSLParser");
-AttachScript("..\plugins\TestVars\src\TestVars\Ext\ObjectModule.bsl", "PluginTestVars");
+ПодключитьСценарий("..\src\BSLParser\Ext\ObjectModule.bsl", "ПарсерBSL");
+ПодключитьСценарий("..\plugins\TestVars\src\TestVars\Ext\ObjectModule.bsl", "ПлагинТестПеременных");
 
-CommonModulesPath = CommandLineArguments[0];
-Files = FindFiles(CommonModulesPath, "*.bsl", True);
+КаталогОбщихМодулей = АргументыКоманднойСтроки[0];
+Файлы = НайтиФайлы(КаталогОбщихМодулей, "*.bsl", Истина);
 
-BSLParser = New BSLParser;
-PluginTestVars = New PluginTestVars;
-BSLParser.HookUp(PluginTestVars);
+ПарсерBSL = Новый ПарсерBSL;
+ПлагинТестПеременных = Новый ПлагинТестПеременных;
+ПарсерBSL.Подключить(ПлагинТестПеременных);
 
-TextReader = New TextReader;
+ЧтениеТекста = Новый ЧтениеТекста;
 
-For Each File In Files Do
-	Message(Chars.LF);
-	Message(File.FullName);
-	TextReader.Open(File.FullName);
-	Source = TextReader.Read();
-	Try
-		Module = BSLParser.ParseModule(Source);
-		BSLParser.VisitModule(Module);
-	Except
-		Message(DetailErrorDescription(ErrorInfo()));
-	EndTry;
-	Message(PluginTestVars.Result());
-	TextReader.Close()
-EndDo;
+Для каждого Файл Из Файлы Цикл
+	//Сообщить(Символы.ПС);
+	Сообщить(Файл.ПолноеИмя);
+	ЧтениеТекста.Открыть(Файл.ПолноеИмя);
+	Исходник = ЧтениеТекста.Прочитать();
+	Попытка
+		Модуль = ПарсерBSL.РазобратьМодуль(Исходник);
+		ПарсерBSL.ПосетитьМодуль(Модуль);
+	Исключение
+		Сообщить(ПодробноеПредставлениеОшибки(ИнформацияОбОшибке()));
+	КонецПопытки;
+	Сообщить(ПлагинТестПеременных.Результат());
+	ЧтениеТекста.Закрыть()
+КонецЦикла;
